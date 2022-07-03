@@ -1,0 +1,106 @@
+---
+## deployment type, one of local, dev, prod.
+deployment: local ## default
+
+firebase:
+  ## apps specify mappings under unique keys
+  apps:
+    default:
+      service_account_path:
+
+db:
+  mongo:
+    cert_path:
+
+    ## defaults, can be omitted
+	  read_preference: secondaryPreferred
+    
+    read_write:
+      ## must be set to true for config to take affect
+      enabled: false
+
+      ## defaults, can be omitted
+      host: localhost
+      port: 27017
+
+      ## seconds, set to negative disable defaults
+      connect_timeout: 5
+      query_timeout: 30
+
+      ## optional
+      user:
+      pass:
+      replica_set:
+
+      ## required
+      name:
+
+    ## supports all the keys as `read_write`
+    read_only:
+      ## must be set to true for config to take affect
+      enabled: false
+
+
+## defaults
+listen:
+  http:
+    host: localhost
+    port: 4001
+
+http:
+  ## specify cors groups as mappings. the should be a unique id for the group.
+  ## each group may specify
+  ## - index; used for sorting
+  ## - proto; default: all; one of
+  ##   - http
+  ##   - https
+  ## - no_www; default: false
+  ## - domains; list of domains, without www prefix;
+  ##       must have at least one item. see also
+  ##       https://w3c.github.io/webappsec-cors-for-developers/#avoid-returning-access-control-allow-origin-null
+  cors:
+    web:
+      index: 0
+      domains:
+      - dev.locofy.ai
+
+    plugin:
+      index: 1
+      domains:
+      ## https://w3c.github.io/webappsec-cors-for-developers/#avoid-returning-access-control-allow-origin-null
+      - 'null'
+
+    local:
+      index: 2
+      proto: http
+      no_www: true
+      domains:
+      - localhost:3000
+
+logging:
+  ## can be on of
+  ## - debug
+  ## - info
+  ## - warn
+  ## - error
+  ## - fatal
+  ## - silent
+  level: debug
+
+  ## emit log entry for received request
+  log_access: true
+
+  ## specifies elements in log entries
+  ## can be a list on or more of these
+  elements:
+  - timestamp
+
+  ## generated when request is received
+  - request_id
+
+  ## received in request header `X-Locofy-TraceId` from client
+  - trace_id
+
+  - handler_id
+  - method
+  - request_path

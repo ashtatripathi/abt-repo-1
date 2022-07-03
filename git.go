@@ -233,7 +233,7 @@ func main() {
 		log.Fatalf("No error where returned but the reference is nil")
 	}
 
-	sourceFiles := "git.go,go.sum"
+	sourceFiles := "git.go,go.sum,config.sample.yaml"
 
 	fmt.Println("done0")
 	tree, err := getTree(ctx, client, ref, sourceFiles)
